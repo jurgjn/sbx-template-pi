@@ -10,10 +10,28 @@
           "name": "Swift 1.5 27B (local)",
           "reasoning": true,
           "contextWindow": 32768,
-          "maxTokens": 16384
+          "maxTokens": 16384,
+          "thinkingLevelMap": {
+            "off": "off",
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": null,
+            "xhigh": "xhigh",
+            "max": null
+          },
+          "compat": {
+            "thinkingFormat": "chat-template",
+            "chatTemplateKwargs": {
+              "enable_thinking": { "$var": "thinking.enabled" },
+              "preserve_thinking": true,
+              "reasoning_effort": { "$var": "thinking.effort", "omitWhenOff": true }
+            }
+          }
         }
       ]
     }
   }
 }
+
 
