@@ -104,6 +104,10 @@ credentials:
 # with the real credential in the appropriate header.
 # ---------------------------------------------------------------------------
 environment:
+  # Pi's built-in llama.cpp provider reads this and discovers models, context
+  # sizes and capabilities from the router on the host (no /login needed).
+  variables:
+    LLAMA_BASE_URL: http://host.docker.internal:9931
   proxyManaged:
     - ANTHROPIC_API_KEY
     - OPENAI_API_KEY
@@ -113,7 +117,17 @@ environment:
     - ZAI_API_KEY
 
 # ---------------------------------------------------------------------------
-# Commands — none needed; everything is baked into the image.
+# Commands — everything is baked into the image. At startup, warm pi's model
+# cache from the llama.cpp router: interactive pi only discovers models in the
+# background after launch, so a fresh sandbox would otherwise start with no
+# model selected. Gives up after ~10s if the router is unreachable.
+# ---------------------------------------------------------------------------
+commands:
+  startup:
+    - command: ["sh", "-c", '(sleep 15 | pi --mode rpc --no-session >/dev/null 2>&1 &); i=0; while [ $i -lt 20 ] && ! grep -q ''"llama.cpp"'' "$HOME/.pi/agent/models-store.json" 2>/dev/null; do sleep 0.5; i=$((i+1)); done']
+      user: "1000"
+      description: "Discover llama.cpp models so pi starts on the default model"
+
 # ---------------------------------------------------------------------------
 # Memory — brief sandbox orientation for the agent
 # ---------------------------------------------------------------------------
