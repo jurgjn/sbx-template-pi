@@ -1,4 +1,3 @@
 {
-    "defaultProvider": "llama.cpp",
-    "defaultModel": "ukisai/Swift-1.5-Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S"
+    "defaultProvider": "llama.cpp"
 }
