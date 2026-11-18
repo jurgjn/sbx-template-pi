@@ -33,6 +33,7 @@ agent:
 # ---------------------------------------------------------------------------
 network:
   allowedDomains:
+    - localhost:9931                # llama.cpp router on host (via host.docker.internal)
     - registry.npmjs.org            # npm install
     - api.anthropic.com:443         # Anthropic
     - console.anthropic.com:443
